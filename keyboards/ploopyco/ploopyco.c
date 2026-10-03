@@ -139,10 +139,22 @@ void cycle_dpi(void) {
     pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
 }
 
+/* Drag-scroll sensitivity is exposed as runtime values so keyboards can make it
+ * depend on the host (e.g. to compensate for a high-resolution wheel descriptor
+ * that some operating systems ignore). Defaults preserve the compile-time
+ * PLOOPY_DRAGSCROLL_DIVISOR_* behaviour for every other Ploopy device. */
+__attribute__((weak)) float ploopy_dragscroll_divisor_h(void) {
+    return PLOOPY_DRAGSCROLL_DIVISOR_H;
+}
+
+__attribute__((weak)) float ploopy_dragscroll_divisor_v(void) {
+    return PLOOPY_DRAGSCROLL_DIVISOR_V;
+}
+
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     if (is_drag_scroll) {
-        scroll_accumulated_h += (float)mouse_report.x / PLOOPY_DRAGSCROLL_DIVISOR_H;
-        scroll_accumulated_v += (float)mouse_report.y / PLOOPY_DRAGSCROLL_DIVISOR_V;
+        scroll_accumulated_h += (float)mouse_report.x / ploopy_dragscroll_divisor_h();
+        scroll_accumulated_v += (float)mouse_report.y / ploopy_dragscroll_divisor_v();
 
         // Assign integer parts of accumulated scroll values to the mouse report
         mouse_report.h = (int8_t)scroll_accumulated_h;

@@ -44,6 +44,13 @@
 #define PLOOPY_DRAGSCROLL_DIVISOR_V 0.3
 #define PLOOPY_DRAGSCROLL_INVERT
 
+/* Drag-scroll divisors for hosts that ignore the Resolution Multiplier of the
+   high-resolution wheel descriptor (notably macOS/iOS). The divisors above are
+   tuned for the Windows/Linux high-res path; without it drag scroll is far too
+   fast. These fallback values match the Ploopy Adept's defaults. */
+#define PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_H 8.0
+#define PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_V 8.0
+
 /* PMW3360 Settings */
 #define PMW33XX_LIFTOFF_DISTANCE 0x00
 #define PMW33XX_CS_PIN GP5

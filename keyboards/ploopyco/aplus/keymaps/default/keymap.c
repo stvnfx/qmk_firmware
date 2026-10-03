@@ -442,6 +442,21 @@ int16_t rightwheel_volume_scroll_tick = 0;
 uint32_t leftwheel_timeout = 0;
 uint32_t rightwheel_timeout = 0;
 
+/* OS-aware drag-scroll sensitivity. The A+ advertises a high-resolution wheel
+   (WHEEL_EXTENDED_REPORT + POINTING_DEVICE_HIRES_SCROLL_ENABLE). Windows and
+   Linux apply the Resolution Multiplier, so the compact divisors in config.h
+   feel right there. macOS/iOS ignore it, which makes drag scroll far too fast,
+   so fall back to the Adept's divisors on those hosts. */
+float ploopy_dragscroll_divisor_h(void) {
+    os_variant_t os = detected_host_os();
+    return (os == OS_WINDOWS || os == OS_LINUX) ? PLOOPY_DRAGSCROLL_DIVISOR_H : PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_H;
+}
+
+float ploopy_dragscroll_divisor_v(void) {
+    os_variant_t os = detected_host_os();
+    return (os == OS_WINDOWS || os == OS_LINUX) ? PLOOPY_DRAGSCROLL_DIVISOR_V : PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_V;
+}
+
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     // throttle reads
     if (timer_elapsed32(last_scroll_time) > 10) {
