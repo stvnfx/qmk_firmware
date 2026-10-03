@@ -6,6 +6,7 @@
 * [Trackball Nano](trackball_nano/)
 * [Trackball Thumb](trackball_thumb/)
 * [Adept/Madromys](madromys/)
+* [A+](aplus/)
 
 # Customizing your PloopyCo Device
 
@@ -43,3 +44,14 @@ Nothing needs to be enabled to use this functionality.  Just add the `DRAG_SCROL
 * `#define PLOOPY_DRAGSCROLL_DIVISOR_H 8.0` - Sets the horizontal movement divisor to use when drag scroll is enabled.
 * `#define PLOOPY_DRAGSCROLL_DIVISOR_V 8.0` - Sets the vertical movement divisor to use when drag scroll is enabled.
 * `#define PLOOPY_DRAGSCROLL_INVERT` - This reverses the direction that the scroll is performed.
+
+### Host-aware Drag Scroll (A+)
+
+The A+ reports a high-resolution scroll wheel. Windows and Linux apply the descriptor's Resolution Multiplier, so `PLOOPY_DRAGSCROLL_DIVISOR_H` and `PLOOPY_DRAGSCROLL_DIVISOR_V` are tuned for them. macOS and iOS ignore that multiplier, so the same values make drag scroll scroll far too fast there. On hosts that don't use the multiplier, the A+ falls back to `PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_H` and `PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_V`, which default to the Adept's `8.0`/`8.0`.
+
+* `#define PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_H 8.0` - Sets the horizontal divisor used on hosts without the high-resolution scroll descriptor, such as macOS. *(A+ only)*
+* `#define PLOOPY_DRAGSCROLL_DIVISOR_FALLBACK_V 8.0` - Sets the vertical divisor used on hosts without the high-resolution scroll descriptor, such as macOS. *(A+ only)*
+
+# History
+
+See [history.md](history.md) for notable changes to the Ploopyco keyboards.
